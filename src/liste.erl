@@ -20,8 +20,6 @@ create() ->
 
 
 
-
-
 %% isEmpty: list -> bool
 %% Prüft, ob die Liste leer ist
 isEmpty(List) ->
@@ -29,8 +27,6 @@ isEmpty(List) ->
   if ( Laenge == 0) -> true;
      true -> false
   end.
-
-
 
 
 
@@ -43,9 +39,6 @@ laenge_({},Accu)  ->             %% Abbruchbedingung, wenn die Liste leer ist wi
   Accu;
 laenge_({_First,Rest}, Accu) ->  %% Rekusiv duch List gehen und dabei Accumulator immer um eins erhöhen
   laenge_(Rest, Accu +1 ).
-
-
-
 
 
 
@@ -68,7 +61,6 @@ insert_({First, Rest}, Pos, Elem, NewList) ->    %% Die Pos ist noch nicht errei
     insert_( Rest, Pos-1, Elem, NewList1).       %% Die Funktion wird rekursiv mit dem Rest aufgeruen und
                                                  %%    die Position um eins verringert
 
-
 reverse(List) ->
   reverse_(List, {}).
 reverse_({}, NewList) ->
@@ -79,15 +71,11 @@ reverse_({First, Rest}, NewList) ->
 
 
 
-
-
-
 %% delete: list x pos -> list
 %% Entfernt das übergebene Element an der übergebene Position (falls vorhanden)
 %%   in der übergebenen Liste und gibt die modifizierte Liste zurück
 delete(List, Pos) ->
   delete_(List, Pos, {}).
-
 
 delete_({_First,Rest}, 1, NewList) ->
   delete_(Rest, 0,  NewList);
@@ -101,15 +89,11 @@ delete_({First,Rest}, Pos, NewList) ->
 
 
 
-
-
-
 %% find: list x elem -> pos
 %% Sucht nach einem übergebenen Element in der übergebene Liste
 %%     und gibt die Position dessen zurück (falls gefunden)
 find(List, Elem) ->
   find_(List, Elem, 1).
-
 
 find_({First, _Rest}, Elem, Pos) when First == Elem ->
   Pos;
@@ -122,10 +106,6 @@ find_({}, _Elem, _Pos) ->  %% gesuchtes Element existiert nicht -> nil (not in l
 
 
 
-
-
-
-
 %% retieve: list x pos -> elem
 %% Gibt das Element an der übergebenen Position in der übergebenen Liste zurück (falls vorhanden)
 retrieve({First, _Rest}, 1) ->       %% Position erreicht, liefere Element an der Stelle
@@ -134,10 +114,6 @@ retrieve({_First, Rest}, Pos) ->     %% Richtige Position noch nicht erreicht, d
   retrieve(Rest, Pos-1);
 retrieve({}, _Pos) ->                %% Position existiert nicht, liefer leere Liste zurück
   {}.
-
-
-
-
 
 
 
