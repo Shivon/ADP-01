@@ -23,21 +23,14 @@ initA() ->
 %% setA: array × pos × elem → array
 %% Fügt dem übergebenen Array an der übergebenen Position das
 %% übergebene Element hinzu und gibt das modifizierte Array zurück
-
-%% setA(Array, Pos, Elem) when lengthA(Array) > Pos -> insert(delete(Array, Pos+1), Pos+1, Elem);
-%% setA(Array, Pos, Elem) when lengthA(Array) == Pos -> insert(Array, Pos+1, Elem);
-%% setA(Array, Pos, _Elem) when lengthA(Array) < Pos -> setA(Array, Pos, 0).
-
 setA(Array, Pos, Elem) ->
   Length = lengthA(Array),
   if
     (Length > Pos) -> insert(delete(Array, Pos+1), Pos+1, Elem);
     (Length == Pos) -> insert(Array, Pos+1, Elem);
-    (Length < Pos) -> setA(Array, Pos, 0, {})
-    %%true -> Array
+    (Length < Pos) -> Array1 = setA(Array, Length, 0), setA(Array1, Pos, Elem);
+    true -> Array
   end.
-
-setA(_Array, _Pos, _Elem, _Accu) ->true.%%TODO
 
 
 %% getA: array × pos → elem
@@ -54,12 +47,3 @@ getA(Array, Pos) ->
 %% lengthA: array → pos
 %% Gibt die länge des übergebenen Arrays zurück
 lengthA(Array) -> laenge(Array).
-
-
-%% Tests:
-%% 1> Test1 = arrayS:initA().
-%% {}
-%% 2> Test2 = arrayS:setA(Test1, 0, 1).
-%% {1,{}}
-%% 3> Test3 = arrayS:setA(Test2, 1, 2).
-%% {1,{2,{}}}

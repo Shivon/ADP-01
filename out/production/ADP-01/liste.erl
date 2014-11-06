@@ -1,5 +1,5 @@
 %%%-------------------------------------------------------------------
-%%% @author Louisa & Marjan
+%%% @author Louisa
 %%% @copyright (C) 2014, <COMPANY>
 %%% @doc
 %%%
