@@ -28,7 +28,7 @@ setA(Array, Pos, Elem) ->
   if
     (Length > Pos) -> insert(delete(Array, Pos+1), Pos+1, Elem);
     (Length == Pos) -> insert(Array, Pos+1, Elem);
-    (Length < Pos) -> Array1 = setA(Array, Length, 0), setA(Array1, Pos, Elem);
+    (Length < Pos) -> ArrayAccu = setA(Array, Length, 0), setA(ArrayAccu, Pos, Elem);
     true -> Array
   end.
 
