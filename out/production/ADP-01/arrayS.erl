@@ -15,7 +15,7 @@
 
 
 %% initA: ∅ → array
-%% Initialisiert ein Array (Erzeugung) und liefert dieses zurück
+%% Initialisiert und erzeugt ein Array und liefert dieses zurück
 initA() ->
   create().
 
@@ -35,7 +35,7 @@ setA(Array, Pos, Elem) ->
 
 %% getA: array × pos → elem
 %% Gibt das Element vom übergebenen Array an der übergebenen Position
-%% zurück (falls vorhanden, sonst 0...siehe weitere Vorgaben)
+%% zurück (falls vorhanden, sonst 0)
 getA(Array, Pos) ->
   Length = lengthA(Array),
   if
@@ -45,5 +45,5 @@ getA(Array, Pos) ->
 
 
 %% lengthA: array → pos
-%% Gibt die länge des übergebenen Arrays zurück
+%% Gibt die Länge des übergebenen Arrays zurück
 lengthA(Array) -> laenge(Array).

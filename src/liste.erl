@@ -125,11 +125,13 @@ concat(List1, List2) ->
 concat_({}, {}, NewList) ->
   reverse(NewList);
 
-%% 1. Liste ist leer (entweder von Anfang an, oder alle Elemente sind schon
+%% 1. Liste leer - entweder von Anfang an oder alle Elemente schon komplett in neue Liste hinzugefügt
+%% => Elemente 2. Liste in neue Liste hinzufügen
 concat_({}, {First, Rest}, NewList) ->
-  NewList1 = {First,NewList},                 %%    komplett in die neue Liste hinzugefügt worden), dann werden die
-  concat_({}, Rest, NewList1);                %%    Elemente der zweite Liste in die neue Liste hinzugefügt.
+  NewList1 = {First,NewList},
+  concat_({}, Rest, NewList1);
 
-concat_({First, Rest}, List2, NewList) ->     %% von der ersten Liste werden die Elemente in die neue Liste hinzugefügt.
+%% Elemente 1. Liste in neue Liste hinzugefügt
+concat_({First, Rest}, List2, NewList) ->
   NewList1 = {First,NewList},
   concat_(Rest, List2, NewList1).
