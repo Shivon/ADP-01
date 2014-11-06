@@ -48,20 +48,20 @@ restackTop({In, Out}) ->
 enqueue({StackIn, StackOut}, Elem) ->
   X = stack:isEmptyS(StackOut),
   if
-    X -> stack:push(StackIn, {Elem})
-%    true -> restackEnqueue({StackOut, StackIn}, Elem)
+    X -> StackInAccu = stack:push(StackIn, Elem), {StackInAccu, StackOut};
+    true -> restackEnqueue({StackOut, StackIn}, Elem)
   end.
 
-%% restackEnqueue({StackOut, StackIn}, Elem) ->
-%%   X = stack:isEmptyS(StackIn),
-%% if
-%%     X ->
-%%       Top = stack:top(StackOut),                    %% dann nehme das oberste Element
-%%       StackIn1 = stack:push(StackIn, Top),          %% und tu es in den Instack
-%%       StackOut1 = stack:pop(StackOut),              %% lösche das oberste Element aus dem Outstack
-%%       restackEnqueue({StackOut1, StackIn1}, Elem);  %% gebe den modifizierten in- und outstack weiter
-%%     true -> stack:push(StackIn, Elem)
-%%   end.
+restackEnqueue({StackOut, StackIn}, Elem) ->
+  X = stack:isEmptyS(StackIn),
+if
+    X ->
+      Top = stack:top(StackOut),                    %% dann nehme das oberste Element
+      StackIn1 = stack:push(StackIn, Top),          %% und tu es in den Instack
+      StackOut1 = stack:pop(StackOut),              %% lösche das oberste Element aus dem Outstack
+      restackEnqueue({StackOut1, StackIn1}, Elem);  %% gebe den modifizierten in- und outstack weiter
+    true -> stack:push(StackIn, Elem)
+  end.
 
 
 %% dequeue: queue → queue (Mutator)
