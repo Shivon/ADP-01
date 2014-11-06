@@ -14,55 +14,58 @@
 
 
 %% create: leere Menge -> list
-%% Initialisiert eine Liste (Erzeugung) und liefert diese zurück
+%% Initialisiert und erzeugt eine Liste und liefert diese zurück
+%% Implementierung via Tupel gemäß Anforderung
 create() ->
   {}.
-
 
 
 %% isEmpty: list -> bool
 %% Prüft, ob die Liste leer ist
 isEmpty(List) ->
   Laenge = laenge(List),
-  if (Laenge == 0) -> true;
-     true -> false
+  if
+    (Laenge == 0) -> true;
+    true -> false
   end.
 
 
-
 %% laenge: list -> int
-%% Gibt die Länge der übergebene Liste zurück
+%% Gibt die Länge der übergebenen Liste zurück
 laenge(List) ->
   laenge_(List,0).
 
-laenge_({},Accu)  ->             %% Abbruchbedingung, wenn die Liste leer ist wir Accumulator zurückgegeben
+%% Abbruchbedingung: Wenn Liste leer ist, wird Accumulator zurückgegeben
+laenge_({},Accu)  ->
   Accu;
-laenge_({_First,Rest}, Accu) ->  %% Rekusiv duch List gehen und dabei Accumulator immer um eins erhöhen
-  laenge_(Rest, Accu +1 ).
-
+%% Rekusiv duch Liste gehen und dabei Accumulator immer um eins erhöhen
+laenge_({_First,Rest}, Accu) ->
+  laenge_(Rest, Accu + 1 ).
 
 
 %% insert: list x pos x elem -> list
 %% Fügt der übergebenen Lise an der übergebenen Position das
-%%   übergebene Element hinzu und gibt die modifizierte Liste zurück
+%% übergebene Element hinzu und gibt die modifizierte Liste zurück
 insert(List, Pos, Elem) ->
    insert_(List, Pos, Elem, {}).
 
-
-insert_(List, 1, Elem, NewList) ->               %%
+insert_(List, 1, Elem, NewList) ->
   NewList1 = {Elem, NewList},
   insert_(List, 0, Elem, NewList1);
 
-insert_({}, _Pos, _Elem, NewList) ->             %%
+insert_({}, _Pos, _Elem, NewList) ->
   reverse(NewList);
 
-insert_({First, Rest}, Pos, Elem, NewList) ->    %% Die Pos ist noch nicht erreicht
-    NewList1 = {First, NewList},                 %% in die Neue Liste wird das Erste Element hinzugefügt
-    insert_( Rest, Pos-1, Elem, NewList1).       %% Die Funktion wird rekursiv mit dem Rest aufgerufen und
-                                                 %%    die Position um eins verringert
+%% Position ist noch nicht erreicht, in die neue Liste wird das erste Element hinzugefügt
+%% Funktion wird rekursiv mit dem Rest aufgerufen & Position um 1 verringert
+insert_({First, Rest}, Pos, Elem, NewList) ->
+    NewList1 = {First, NewList},
+    insert_( Rest, Pos - 1, Elem, NewList1).
 
+%% Hilfsfunktion
 reverse(List) ->
   reverse_(List, {}).
+
 reverse_({}, NewList) ->
   NewList;
 reverse_({First, Rest}, NewList) ->
@@ -70,62 +73,60 @@ reverse_({First, Rest}, NewList) ->
   reverse_(Rest, NewList1).
 
 
-
 %% delete: list x pos -> list
-%% Entfernt das übergebene Element an der übergebene Position (falls vorhanden)
-%%   in der übergebenen Liste und gibt die modifizierte Liste zurück
+%% Entfernt das übergebene Element an der übergebenen Position (falls vorhanden)
+%% in der übergebenen Liste und gibt die modifizierte Liste zurück
 delete(List, Pos) ->
   delete_(List, Pos, {}).
 
 delete_({_First,Rest}, 1, NewList) ->
   delete_(Rest, 0,  NewList);
 
-delete_({}, _Pos,  NewList) ->             %%
+delete_({}, _Pos,  NewList) ->
   reverse(NewList);
 
 delete_({First,Rest}, Pos, NewList) ->
-  NewList1 = {First, NewList},                 %% in die Neue Liste wird das Erste Element hinzugefügt
-  delete_( Rest, Pos-1, NewList1).
-
+  %% in die Neue Liste wird das Erste Element hinzugefügt
+  NewList1 = {First, NewList},
+  delete_( Rest, Pos - 1, NewList1).
 
 
 %% find: list x elem -> pos
-%% Sucht nach einem übergebenen Element in der übergebene Liste
-%%     und gibt die Position dessen zurück (falls gefunden)
+%% Sucht nach einem übergebenen Element in der übergebenen Liste
+%% und gibt die Position dessen zurück (falls gefunden)
 find(List, Elem) ->
   find_(List, Elem, 1).
 
-find_({First, _Rest}, Elem, Pos) when First == Elem ->
-  Pos;
-
-find_({First, Rest}, Elem, Pos)  when First /= Elem ->
-  find_(Rest, Elem, Pos+1);
-
-find_({}, _Elem, _Pos) ->  %% gesuchtes Element existiert nicht -> nil (not in list) wird zurückgegeben.
-  nil.
-
+find_({First, _Rest}, Elem, Pos) when First == Elem -> Pos;
+find_({First, Rest}, Elem, Pos)  when First /= Elem -> find_(Rest, Elem, Pos + 1);
+%% gesuchtes Element existiert nicht -> nil (not in list) wird zurückgegeben.
+find_({}, _Elem, _Pos) -> nil.
 
 
 %% retrieve: list x pos -> elem
 %% Gibt das Element an der übergebenen Position in der übergebenen Liste zurück (falls vorhanden)
-retrieve({First, _Rest}, 1) ->       %% Position erreicht, liefere Element an der Stelle
+%% Position erreicht, liefert Element an der Stelle
+retrieve({First, _Rest}, 1) ->
   First;
-retrieve({_First, Rest}, Pos) ->     %% Richtige Position noch nicht erreicht, dann suche weiter
-  retrieve(Rest, Pos-1);
-retrieve({}, _Pos) ->                %% Position existiert nicht, liefer leere Liste zurück
+%% Richtige Position noch nicht erreicht, suche weiter
+retrieve({_First, Rest}, Pos) ->
+  retrieve(Rest, Pos - 1);
+%% Position existiert nicht, liefert leere Liste zurück
+retrieve({}, _Pos) ->
   {}.
 
 
-
 %% concat: list x list -> list
-%% Konkatiniert die übergebenen Liten und gibt das Ergebnis zurück
+%% Konkatiniert die übergebenen Listen und gibt die neue Liste zurück
 concat(List1, List2) ->
   concat_(List1, List2, {}).
 
-concat_({}, {}, NewList) ->                   %% sind beide leer, wird die neu erstellte Liste zurückgegeben.
+%% Sind beide Listen leer, wird die neu erstellte Liste zurückgegeben
+concat_({}, {}, NewList) ->
   reverse(NewList);
 
-concat_({}, {First, Rest}, NewList) ->        %% erste Liste ist leer (entweder von Anfang an, oder alle Elemente sind schon
+%% 1. Liste ist leer (entweder von Anfang an, oder alle Elemente sind schon
+concat_({}, {First, Rest}, NewList) ->
   NewList1 = {First,NewList},                 %%    komplett in die neue Liste hinzugefügt worden), dann werden die
   concat_({}, Rest, NewList1);                %%    Elemente der zweite Liste in die neue Liste hinzugefügt.
 
