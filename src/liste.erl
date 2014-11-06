@@ -1,5 +1,5 @@
 %%%-------------------------------------------------------------------
-%%% @author Louisa
+%%% @author Louisa & Marjan
 %%% @copyright (C) 2014, <COMPANY>
 %%% @doc
 %%%
@@ -24,7 +24,7 @@ create() ->
 %% Prüft, ob die Liste leer ist
 isEmpty(List) ->
   Laenge = laenge(List),
-  if ( Laenge == 0) -> true;
+  if (Laenge == 0) -> true;
      true -> false
   end.
 
@@ -58,7 +58,7 @@ insert_({}, _Pos, _Elem, NewList) ->             %%
 
 insert_({First, Rest}, Pos, Elem, NewList) ->    %% Die Pos ist noch nicht erreicht
     NewList1 = {First, NewList},                 %% in die Neue Liste wird das Erste Element hinzugefügt
-    insert_( Rest, Pos-1, Elem, NewList1).       %% Die Funktion wird rekursiv mit dem Rest aufgeruen und
+    insert_( Rest, Pos-1, Elem, NewList1).       %% Die Funktion wird rekursiv mit dem Rest aufgerufen und
                                                  %%    die Position um eins verringert
 
 reverse(List) ->
@@ -106,7 +106,7 @@ find_({}, _Elem, _Pos) ->  %% gesuchtes Element existiert nicht -> nil (not in l
 
 
 
-%% retieve: list x pos -> elem
+%% retrieve: list x pos -> elem
 %% Gibt das Element an der übergebenen Position in der übergebenen Liste zurück (falls vorhanden)
 retrieve({First, _Rest}, 1) ->       %% Position erreicht, liefere Element an der Stelle
   First;
