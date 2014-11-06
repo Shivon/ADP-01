@@ -21,11 +21,11 @@ createQ() ->
 
 
 %% front: queue -> elem(Selektor)
-%% Gibt das vorderste Element zu der übergebeen Queue zurück (falls vorhanden)
+%% Gibt das vorderste Element zu der übergebenen Queue zurück (falls vorhanden)
 front({In,Out}) ->
   X = stack:isEmptyS(Out),
   if X ->                   %% wenn outstack leer ist
-    restackTop({In, Out});     %%  dann stapel um
+    restackTop({In, Out});  %%  dann stapel um
   true ->                   %% ist outstack voll
     stack:top(Out)          %% dann gebe das oberste Element zurück
   end.
@@ -48,7 +48,7 @@ restackTop({In, Out}) ->
 enqueue({StackIn, StackOut}, Elem) ->
   X = stack:isEmptyS(StackOut),
   if
-    X -> StackInAccu = stack:push(StackIn, Elem), {StackInAccu, StackOut};
+    X -> StackInNew = stack:push(StackIn, Elem), {StackInNew, StackOut};
     true -> restackEnqueue({StackOut, StackIn}, Elem)
   end.
 
@@ -60,7 +60,7 @@ if
       StackIn1 = stack:push(StackIn, Top),          %% und tu es in den Instack
       StackOut1 = stack:pop(StackOut),              %% lösche das oberste Element aus dem Outstack
       restackEnqueue({StackOut1, StackIn1}, Elem);  %% gebe den modifizierten in- und outstack weiter
-    true -> stack:push(StackIn, Elem)
+    true -> StackInNew = stack:push(StackIn, Elem), {StackInNew, StackOut}
   end.
 
 
@@ -70,14 +70,14 @@ if
 dequeue({StackIn, StackOut}) ->
   X = stack:isEmptyS(StackOut),
   if
-    X -> restackPop({StackIn, StackOut}); %% wenn outstack leer ist, dann stapel um
-    true -> stack:pop(StackOut)           %% ist outstack voll, wird oberstes Element gelöscht
+    X -> QueueNew = restackPop({StackIn, StackOut}), QueueNew; %% wenn outstack leer ist, dann stapel um
+    true -> StackOutNew2 = stack:pop(StackOut), {StackIn, StackOutNew2}           %% ist outstack voll, wird oberstes Element gelöscht
   end.
 
 restackPop({StackIn, StackOut}) ->
   X = stack:isEmptyS(StackIn),
   if
-    X -> stack:pop(StackOut);                %% wenn instack leer ist, dann lösche oberstes Element vom outstack
+    X -> StackOutNew = stack:pop(StackOut), {StackIn, StackOutNew};                %% wenn instack leer ist, dann lösche oberstes Element vom outstack
     true ->                                  %% wenn instack Elemente hat
       Top = stack:top(StackIn),              %% dann nehme das oberste Element
       StackOut1 = stack:push(StackOut, Top), %% und tu es in den outstack
