@@ -20,37 +20,26 @@ createS() ->
   create().
 
 
-
-
 %% push: stack x elem -> stack
 %% Fügt dem übergebenen Stack das übergebene Element hinzu und gibt den modifizierten Stack zurück
 push(Stack, Elem) ->
-  insert(Stack, 1, Elem).       %% Vorne der Liste ist oben beim Stack
-%% oder
-%% Laenge = lanege(Stack),      %% Am Ende der Liste ist oben beim Stack
-%% insert(Stack, Laenge, Elem).
-
+  %% Position 1 Liste entspricht oben beim Stack
+  insert(Stack, 1, Elem).
 
 
 %% pop: stack -> stack
-%% Enfernt vom übergebnenen Stack das oberste Element (falls vorhanden)und gibt den modifizierten Stack zurück
+%% Enfernt vom übergebenen Stack das oberste Element (falls vorhanden)und gibt den modifizierten Stack zurück
 pop(Stack) ->
-  delete(Stack, 1).     %% Vorne der Liste ist oben beim Stack
-
-
-
+  delete(Stack, 1).
 
 
 %% top: stack -> elem
 %% Gibt das oberste Element (falls vorhanden) des übergebenen Stacks zurück
 top(Stack) ->
-  retrieve(Stack, 1).   %% Vorne der Liste ist oben beim Stack
-
-
-
+  retrieve(Stack, 1).
 
 
 %% isEmptyS: stack -> bool
-%% Prüft ob der übergebene Stack leer ist, falls ja wird true zurück gegeben sonst false
+%% Prüft, ob der übergebene Stack leer ist, ja -> true/ nein -> false
 isEmptyS(Stack) ->
   isEmpty(Stack).
